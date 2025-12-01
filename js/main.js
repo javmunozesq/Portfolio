@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Parallax sutil del hero visual (respeta prefers-reduced-motion en CSS)
+  // Parallax sutil del hero visual
   const heroWrap = document.querySelector('.media-fit-wrap');
   const heroImg = document.querySelector('.photo-fit');
   if (heroWrap && heroImg) {

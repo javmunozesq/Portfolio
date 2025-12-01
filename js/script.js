@@ -1,4 +1,3 @@
-// js/script.js — Validador definitivo + observador de botón (re-attach y override)
 (function(){
   const log = (...args) => console.log('[contact-validator]', ...args);
 
@@ -23,7 +22,7 @@
       return;
     }
 
-    // Bloqueo submit nativo y por otros handlers
+    // Bloqueo submit
     form.addEventListener('submit', (e) => { e.preventDefault(); e.stopImmediatePropagation(); }, true);
     form.submit = function(){ log('submit() bloqueado.'); return false; };
 
@@ -38,12 +37,32 @@
       const err = el.parentNode.querySelector('.error-msg'); if (err) err.remove();
     }
 
+    function countWords(str) {
+      if (!str) return 0;
+      return str.trim().split(/\s+/).filter(Boolean).length;
+    }
+
     function validateField(el) {
       const v = el.value.trim();
-      if (el === name) { if (!v) { setError(el,'Por favor, escribe tu nombre.'); return false; } clearError(el); return true; }
-      if (el === email) { if (!v) { setError(el,'Por favor, escribe tu correo.'); return false; } if (!emailRx.test(v)) { setError(el,'Correo no válido.'); return false; } clearError(el); return true; }
-      if (el === subject) { if (!v) { setError(el,'Por favor, indica el asunto.'); return false; } clearError(el); return true; }
-      if (el === message) { if (!v) { setError(el,'Por favor, escribe tu mensaje.'); return false; } clearError(el); return true; }
+      if (el === name) {
+        if (!v) { setError(el,'Por favor, escribe tu nombre.'); return false; }
+        clearError(el); return true;
+      }
+      if (el === email) {
+        if (!v) { setError(el,'Por favor, escribe tu correo.'); return false; }
+        if (!emailRx.test(v)) { setError(el,'Correo no válido.'); return false; }
+        clearError(el); return true;
+      }
+      if (el === subject) {
+        if (!v) { setError(el,'Por favor, indica el asunto.'); return false; }
+        clearError(el); return true;
+      }
+      if (el === message) {
+        const words = countWords(v);
+        if (!v) { setError(el,'Por favor, escribe tu mensaje.'); return false; }
+        if (words < 5) { setError(el,'Escribe al menos 5 palabras en el mensaje.'); return false; }
+        clearError(el); return true;
+      }
       return true;
     }
 
@@ -51,8 +70,12 @@
       return [name,email,subject,message].every(i => validateField(i));
     }
 
+    function messageHasMinWords() {
+      return countWords(message.value) >= 5;
+    }
+
     function toggleSubmit(reason) {
-      const allFilled = [name,email,subject,message].every(i => i.value.trim().length > 0);
+      const allFilled = [name,email,subject].every(i => i.value.trim().length > 0) && messageHasMinWords();
       const allValid = validateAll();
       const enable = allFilled && allValid;
       submitBtn.disabled = !enable;
@@ -100,7 +123,7 @@
         if (m.type === 'attributes' && (m.attributeName === 'disabled' || m.attributeName === 'aria-disabled' || m.attributeName === 'class')) {
           // Si el botón está marcado como disabled por otro proceso, comprobamos si debe estar habilitado
           const currentlyDisabled = submitBtn.disabled;
-          const shouldBeEnabled = [name,email,subject,message].every(i => i.value.trim().length > 0) && validateAll();
+          const shouldBeEnabled = [name,email,subject].every(i => i.value.trim().length > 0) && messageHasMinWords() && validateAll();
           if (currentlyDisabled && shouldBeEnabled) {
             log('Se detectó que otro script forzó disabled; lo revertimos porque los campos son válidos.');
             submitBtn.disabled = false;

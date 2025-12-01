@@ -110,11 +110,11 @@ class HeroSection extends HTMLElement {
 }
 customElements.define('hero-section', HeroSection);
 
-/* About Section */
 class AboutSection extends HTMLElement {
   connectedCallback(){
-    const photoSrc = inPagesFolder ? '../assets/images/hero.jpg' : 'assets/images/hero.jpg'; // mejor otra foto distinta del hero
+    const photoSrc = inPagesFolder ? '../assets/images/hero.jpg' : 'assets/images/hero.jpg';
     const cvPath = inPagesFolder ? '../assets/CV_Javier_Munoz_Esqueta.pdf' : 'assets/CV_Javier_Munoz_Esqueta.pdf';
+    const githubUrl = 'https://github.com/javmunozesq'; 
 
     this.innerHTML = `
       <section id="sobre-mi" class="section section-enter" data-animate="fade-up">
@@ -123,8 +123,9 @@ class AboutSection extends HTMLElement {
             <h2 class="section-title">Sobre mi</h2>
             <p class="lead">Busco que el código sea claro, mantenible y rápido. Pienso en arquitectura, experiencia de usuario y despliegue desde el primer commit.</p>
             <p>Me muevo cómodo entre <strong>Java + Spring Boot</strong> para backend, <strong>Kotlin + Android</strong> para apps nativas, y <strong>React Native</strong> cuando toca multiplataforma. Diseño e integro <strong>APIs REST</strong>, trabajo con <strong>SQL</strong>, y automatizo con <strong>Python</strong> y <strong>Docker</strong>.</p>
-            <div class="hero-cta" style="margin-top:10px">
+            <div class="hero-cta" style="margin-top:10px; display:flex; gap:8px; align-items:center;">
               <a href="${cvPath}" class="btn btn-primary" download="CV_Javier_Munoz_Esqueta.pdf">Descargar CV</a>
+              <a href="${githubUrl}" class="btn-github" target="_blank" rel="noopener noreferrer" aria-label="Ir a GitHub">Ver GitHub</a>
             </div>
           </div>
 

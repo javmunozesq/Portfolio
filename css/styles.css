@@ -109,6 +109,31 @@ body{
 .btn-secondary{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.3);transition:border-color .2s var(--motion-ease), transform .2s var(--motion-ease)}
 .btn-secondary:hover{border-color:rgba(255,255,255,.5);transform:translateY(-2px)}
 
+.btn-github{
+  background:var(--gold);
+  color:var(--dark-blue);
+  box-shadow:0 10px 26px rgba(224,164,88,.45);
+  transition:transform .2s var(--motion-ease), box-shadow .2s var(--motion-ease);
+  border: none;
+  padding:12px 18px;
+  border-radius:12px;
+  font-weight:800;
+  font-size:16px;
+  display:inline-block;
+  text-decoration:none;
+  will-change:transform, box-shadow;
+}
+
+.btn-github:hover{
+  transform:translateY(-3px) scale(1.02);
+  box-shadow:0 20px 40px rgba(224,164,88,.6);
+}
+
+/* foco accesible */
+.btn-github:focus{
+  outline:3px solid rgba(36,41,47,.12);
+  outline-offset:4px;
+}
 /* Chips */
 .badge-skill{display:inline-block;background:rgba(255,255,255,.15);color:#fff;padding:6px 12px;border-radius:999px;font-weight:800;font-size:13px;margin:6px 6px 0 0;border:1px solid rgba(255,255,255,.25)}
 
